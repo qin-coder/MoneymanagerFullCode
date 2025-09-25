@@ -5,11 +5,13 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
-
+@Component
 public class JwtUtil {
     /**
      * 生成jwt
@@ -56,5 +58,6 @@ public class JwtUtil {
                 .parseClaimsJws(token).getBody();
         return claims;
     }
+
 
 }

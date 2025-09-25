@@ -101,8 +101,6 @@ public class ProfileService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDTO.getEmail(), authDTO.getPassword()));
             //generate jwt token
             // 2. 生成 JWT Token（使用 JwtUtil 的静态方法）
-
-            // 可以放一些自定义信息，比如用户ID、email等
             Map<String, Object> claims = new HashMap<>();
             claims.put("email", authDTO.getEmail()); // 可以放入用户信息
 

@@ -1,6 +1,8 @@
 package com.xwproject.moneymanager.config;
 
+import com.xwproject.moneymanager.security.JwtRequestFilter;
 import com.xwproject.moneymanager.service.AppUserDetailService;
+import com.xwproject.moneymanager.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,14 +10,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final AppUserDetailService appUserDetailService;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -35,28 +37,36 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtRequestFilter,
+                        UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder() ;
+        return new BCryptPasswordEncoder();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOriginPatterns(List.of("*"));
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST",
+                "PUT", "DELETE", "OPTIONS"));
+        corsConfiguration.setAllowedHeaders(List.of("Authorization"
+                , "Content-Type", "Accept"));
         corsConfiguration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
 
     @Bean
     public AuthenticationManager authenticationManager() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider daoAuthenticationProvider =
+                new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(appUserDetailService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(daoAuthenticationProvider);

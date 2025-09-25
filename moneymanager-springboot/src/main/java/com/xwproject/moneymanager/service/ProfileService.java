@@ -1,4 +1,4 @@
-package com.xwproject.moneymanager.security;
+package com.xwproject.moneymanager.service;
 
 import com.xwproject.moneymanager.dto.ProfileDTO;
 import com.xwproject.moneymanager.entity.ProfileEntity;

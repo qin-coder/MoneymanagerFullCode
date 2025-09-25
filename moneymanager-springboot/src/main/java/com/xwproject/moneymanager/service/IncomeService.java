@@ -1,13 +1,18 @@
 package com.xwproject.moneymanager.service;
 
+import com.xwproject.moneymanager.dto.ExpenseDTO;
 import com.xwproject.moneymanager.dto.IncomeDTO;
 import com.xwproject.moneymanager.entity.CategoryEntity;
+import com.xwproject.moneymanager.entity.ExpenseEntity;
 import com.xwproject.moneymanager.entity.IncomeEntity;
 import com.xwproject.moneymanager.entity.ProfileEntity;
 import com.xwproject.moneymanager.repository.CategoryRepository;
 import com.xwproject.moneymanager.repository.IncomeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,30 @@ public class IncomeService {
         newIncome = incomeRepository.save(newIncome);
         return toDTO(newIncome);
     }
+    //retrives all expenses for current user based on start date
+    // and end date
+    public List<IncomeDTO> getCurrentMonthIncomesForCurrentUser() {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        LocalDate now = LocalDate.now();
+        LocalDate startDate = now.withDayOfMonth(1);
+        LocalDate endDate = now.withDayOfMonth(now.lengthOfMonth());
+        List<IncomeEntity> list =
+                incomeRepository.findByProfileIdAndDateBetween(profile.getId(), startDate, endDate);
+        return list.stream().map(this::toDTO).toList();
+    }
+
+    //delete  expense by id for current user
+    public void deleteIncomeById(Long expenseId) {
+        ProfileEntity currentProfile = profileService.getCurrentProfile();
+        IncomeEntity income = incomeRepository.findById(expenseId)
+                .orElseThrow(() -> new RuntimeException("Expense not found"));
+
+        if(!income.getProfile().getId().equals(currentProfile.getId())){
+            throw new RuntimeException("Unauthorised yo delete");
+        }
+        incomeRepository.delete(income);
+    }
+
 
 
     //help methods

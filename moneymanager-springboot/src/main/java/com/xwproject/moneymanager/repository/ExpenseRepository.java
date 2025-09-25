@@ -5,9 +5,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,6 +37,6 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
 
     // select * from tbl_expenses where profile_id = ? and date
     // between ? and ?
-    List<ExpenseEntity> findByProfileIdAndDateBetween(Long profileId, LocalDateTime startDate, LocalDateTime endDate);
+    List<ExpenseEntity> findByProfileIdAndDateBetween(Long profileId, LocalDate startDate, LocalDate endDate);
 
 }

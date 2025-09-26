@@ -29,8 +29,8 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
     // between ? and ? and name like %xx%
     List<ExpenseEntity> findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(
             Long profileId,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
+            LocalDate startDate,
+            LocalDate endDate,
             String keyword,
             Sort sort
     );

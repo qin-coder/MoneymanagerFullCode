@@ -1,12 +1,15 @@
 package com.xwproject.moneymanager.service;
 
+import com.xwproject.moneymanager.dto.ExpenseDTO;
 import com.xwproject.moneymanager.dto.IncomeDTO;
 import com.xwproject.moneymanager.entity.CategoryEntity;
+import com.xwproject.moneymanager.entity.ExpenseEntity;
 import com.xwproject.moneymanager.entity.IncomeEntity;
 import com.xwproject.moneymanager.entity.ProfileEntity;
 import com.xwproject.moneymanager.repository.CategoryRepository;
 import com.xwproject.moneymanager.repository.IncomeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -68,6 +71,16 @@ public class IncomeService {
         ProfileEntity profile = profileService.getCurrentProfile();
         BigDecimal total =  incomeRepository.findTotalIncomesByProfileId(profile.getId());
         return total != null ? total : BigDecimal.ZERO;
+    }
+    //filter Incomes for current user
+    public List<IncomeDTO> filterIncomes(LocalDate startDate,
+                                           LocalDate endDate,
+                                           String keyword,
+                                           Sort sort) {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<IncomeEntity> list =
+                incomeRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(profile.getId(), startDate, endDate, keyword, sort);
+        return list.stream().map(this::toDTO).toList();
     }
 
 

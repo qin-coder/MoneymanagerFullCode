@@ -28,8 +28,8 @@ public interface IncomeRepository extends JpaRepository<IncomeEntity, Long> {
     // between ? and ? and name like %xx%
     List<IncomeEntity> findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(
             Long profileId,
-            LocalDateTime startDate,
-            LocalDateTime endDate,
+            LocalDate startDate,
+            LocalDate endDate,
             String keyword,
             Sort sort
     );

@@ -7,6 +7,7 @@ import com.xwproject.moneymanager.entity.ProfileEntity;
 import com.xwproject.moneymanager.repository.CategoryRepository;
 import com.xwproject.moneymanager.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,7 +31,7 @@ public class ExpenseService {
                 categoryRepository.findById(expenseDTO.getCategoryId())
                         .orElseThrow(() -> new RuntimeException(
                                 "Category " +
-                                "not found"));
+                                        "not found"));
         ExpenseEntity newExpense = toEntity(expenseDTO,
                 currentProfile, category);
         newExpense = expenseRepository.save(newExpense);
@@ -51,27 +52,43 @@ public class ExpenseService {
 
     //delete  expense by id for current user
     public void deleteExpenseById(Long expenseId) {
-        ProfileEntity currentProfile = profileService.getCurrentProfile();
+        ProfileEntity currentProfile =
+                profileService.getCurrentProfile();
         ExpenseEntity expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new RuntimeException("Expense not found"));
+                .orElseThrow(() -> new RuntimeException("Expense " +
+                        "not found"));
 
-        if(!expense.getProfile().getId().equals(currentProfile.getId())){
+        if (!expense.getProfile().getId().equals(currentProfile.getId())) {
             throw new RuntimeException("Unauthorised yo delete");
         }
         expenseRepository.delete(expense);
     }
+
     //Get latest 5 expenses for current user
     public List<ExpenseDTO> getLatest5ExpensesForCurrentUser() {
         ProfileEntity profile = profileService.getCurrentProfile();
-        List<ExpenseEntity> list = expenseRepository.findTop5ByProfileIdOrderByDateDesc(profile.getId());
+        List<ExpenseEntity> list =
+                expenseRepository.findTop5ByProfileIdOrderByDateDesc(profile.getId());
         return list.stream().map(this::toDTO).toList();
     }
 
     //get total expenses for current user
     public BigDecimal getTotalExpensesForCurrentUser() {
         ProfileEntity profile = profileService.getCurrentProfile();
-        BigDecimal total =  expenseRepository.findTotalExpensesByProfileId(profile.getId());
+        BigDecimal total =
+                expenseRepository.findTotalExpensesByProfileId(profile.getId());
         return total != null ? total : BigDecimal.ZERO;
+    }
+
+    //filter expenses for current user
+    public List<ExpenseDTO> filterExpenses(LocalDate startDate,
+                                           LocalDate endDate,
+                                           String keyword,
+                                           Sort sort) {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<ExpenseEntity> list =
+                expenseRepository.findByProfileIdAndDateBetweenAndNameContainingIgnoreCase(profile.getId(), startDate, endDate, keyword, sort);
+        return list.stream().map(this::toDTO).toList();
     }
 
 

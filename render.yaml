@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: money-manager-backend
+    env: docker
+    dockerfilePath: ./moneymanager-springboot/Dockerfile 
+    autoDeploy: true
+    branch: master         

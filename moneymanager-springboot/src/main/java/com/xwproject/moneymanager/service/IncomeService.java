@@ -1,9 +1,7 @@
 package com.xwproject.moneymanager.service;
 
-import com.xwproject.moneymanager.dto.ExpenseDTO;
 import com.xwproject.moneymanager.dto.IncomeDTO;
 import com.xwproject.moneymanager.entity.CategoryEntity;
-import com.xwproject.moneymanager.entity.ExpenseEntity;
 import com.xwproject.moneymanager.entity.IncomeEntity;
 import com.xwproject.moneymanager.entity.ProfileEntity;
 import com.xwproject.moneymanager.repository.CategoryRepository;
@@ -11,6 +9,7 @@ import com.xwproject.moneymanager.repository.IncomeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class IncomeService {
         newIncome = incomeRepository.save(newIncome);
         return toDTO(newIncome);
     }
-    //retrives all expenses for current user based on start date
+    //retrives all incomes for current user based on start date
     // and end date
     public List<IncomeDTO> getCurrentMonthIncomesForCurrentUser() {
         ProfileEntity profile = profileService.getCurrentProfile();
@@ -45,16 +44,30 @@ public class IncomeService {
         return list.stream().map(this::toDTO).toList();
     }
 
-    //delete  expense by id for current user
-    public void deleteIncomeById(Long expenseId) {
+    //delete  income by id for current user
+    public void deleteIncomeById(Long incomeId) {
         ProfileEntity currentProfile = profileService.getCurrentProfile();
-        IncomeEntity income = incomeRepository.findById(expenseId)
-                .orElseThrow(() -> new RuntimeException("Expense not found"));
+        IncomeEntity income = incomeRepository.findById(incomeId)
+                .orElseThrow(() -> new RuntimeException("Income not found"));
 
         if(!income.getProfile().getId().equals(currentProfile.getId())){
             throw new RuntimeException("Unauthorised yo delete");
         }
         incomeRepository.delete(income);
+    }
+
+    //Get latest 5 incomes for current user
+    public List<IncomeDTO> getLatest5IncomesForCurrentUser() {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        List<IncomeEntity> list = incomeRepository.findTop5ByProfileIdOrderByDateDesc(profile.getId());
+        return list.stream().map(this::toDTO).toList();
+    }
+
+    //get total incomes for current user
+    public BigDecimal getTotalIncomesForCurrentUser() {
+        ProfileEntity profile = profileService.getCurrentProfile();
+        BigDecimal total =  incomeRepository.findTotalIncomesByProfileId(profile.getId());
+        return total != null ? total : BigDecimal.ZERO;
     }
 
 

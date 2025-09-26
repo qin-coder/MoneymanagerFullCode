@@ -1,6 +1,5 @@
 package com.xwproject.moneymanager.controller;
 
-import com.xwproject.moneymanager.dto.ExpenseDTO;
 import com.xwproject.moneymanager.dto.IncomeDTO;
 import com.xwproject.moneymanager.service.IncomeService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class IncomeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IncomeDTO>> getExpensesForCurrentUser() {
+    public ResponseEntity<List<IncomeDTO>> getIncomesForCurrentUser() {
         List<IncomeDTO> incomes = incomeService.getCurrentMonthIncomesForCurrentUser();
         return ResponseEntity.ok(incomes);
     }

@@ -1,6 +1,5 @@
 package com.xwproject.moneymanager.repository;
 
-import com.xwproject.moneymanager.entity.ExpenseEntity;
 import com.xwproject.moneymanager.entity.IncomeEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Sort;
@@ -23,7 +22,7 @@ public interface IncomeRepository extends JpaRepository<IncomeEntity, Long> {
 
     @Query("select coalesce(sum(i.amount), 0) from IncomeEntity i " +
             "where i.profile.id = :profileId")
-    BigDecimal findTotalExpensesByProfileId(@Param("profileId") Long profileId);
+    BigDecimal findTotalIncomesByProfileId(@Param("profileId") Long profileId);
 
     // select * from tbl_incomes where profile_id = ? and date
     // between ? and ? and name like %xx%

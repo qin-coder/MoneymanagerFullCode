@@ -28,10 +28,7 @@ public class ExpenseService {
         ProfileEntity currentProfile =
                 profileService.getCurrentProfile();
         CategoryEntity category =
-                categoryRepository.findById(expenseDTO.getCategoryId())
-                        .orElseThrow(() -> new RuntimeException(
-                                "Category " +
-                                        "not found"));
+                categoryRepository.findById(expenseDTO.getCategoryId()).orElseThrow(() -> new RuntimeException("Category " + "not found"));
         ExpenseEntity newExpense = toEntity(expenseDTO,
                 currentProfile, category);
         newExpense = expenseRepository.save(newExpense);
@@ -54,9 +51,8 @@ public class ExpenseService {
     public void deleteExpenseById(Long expenseId) {
         ProfileEntity currentProfile =
                 profileService.getCurrentProfile();
-        ExpenseEntity expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new RuntimeException("Expense " +
-                        "not found"));
+        ExpenseEntity expense =
+                expenseRepository.findById(expenseId).orElseThrow(() -> new RuntimeException("Expense " + "not found"));
 
         if (!expense.getProfile().getId().equals(currentProfile.getId())) {
             throw new RuntimeException("Unauthorised yo delete");
@@ -91,34 +87,24 @@ public class ExpenseService {
         return list.stream().map(this::toDTO).toList();
     }
 
+    //Notifications
+    public List<ExpenseDTO> getExpensesForUserOnDate(Long profileId
+            , LocalDate date) {
+        List<ExpenseEntity> list =
+                expenseRepository.findByProfileIdAndDate(profileId,
+                        date);
+        return list.stream().map(this::toDTO).toList();
+    }
+
 
     //help methods
     private ExpenseEntity toEntity(ExpenseDTO expenseDTO,
                                    ProfileEntity profile,
                                    CategoryEntity category) {
-        return ExpenseEntity.builder()
-                .name(expenseDTO.getName())
-                .icon(expenseDTO.getIcon())
-                .date(expenseDTO.getDate())
-                .amount(expenseDTO.getAmount())
-                .category(category)
-                .profile(profile)
-                .build();
+        return ExpenseEntity.builder().name(expenseDTO.getName()).icon(expenseDTO.getIcon()).date(expenseDTO.getDate()).amount(expenseDTO.getAmount()).category(category).profile(profile).build();
     }
 
     public ExpenseDTO toDTO(ExpenseEntity expense) {
-        return ExpenseDTO.builder()
-                .id(expense.getId())
-                .name(expense.getName())
-                .icon(expense.getIcon())
-                .categoryName(expense.getCategory() != null ?
-                        expense.getCategory().getName() : "N/A")
-                .categoryId(expense.getCategory() != null ?
-                        expense.getCategory().getId() : null)
-                .amount(expense.getAmount())
-                .date(expense.getDate())
-                .createdAt(expense.getCreatedAt())
-                .updatedAt(expense.getUpdatedAt())
-                .build();
+        return ExpenseDTO.builder().id(expense.getId()).name(expense.getName()).icon(expense.getIcon()).categoryName(expense.getCategory() != null ? expense.getCategory().getName() : "N/A").categoryId(expense.getCategory() != null ? expense.getCategory().getId() : null).amount(expense.getAmount()).date(expense.getDate()).createdAt(expense.getCreatedAt()).updatedAt(expense.getUpdatedAt()).build();
     }
 }

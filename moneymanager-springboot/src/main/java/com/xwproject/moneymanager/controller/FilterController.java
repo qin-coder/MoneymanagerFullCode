@@ -25,37 +25,36 @@ public class FilterController {
 
     @PostMapping
     public ResponseEntity<?> filterTransactions(@RequestBody FilterDTO filterDTO) {
-        //prepare the data or validate
-        LocalDate startDate = filterDTO.getStartDate() != null ?
-                filterDTO.getStartDate() :
-                LocalDate.MIN;
-        LocalDate endDate = filterDTO.getEndDate() != null ?
+        LocalDate startDate = filterDTO.getStartDate();  // 允许为 null
+        LocalDate endDate = (filterDTO.getEndDate() != null) ?
                 filterDTO.getEndDate() : LocalDate.now();
-        String keyword = filterDTO.getKeyword() != null ?
+
+        String keyword = (filterDTO.getKeyword() != null) ?
                 filterDTO.getKeyword() : "";
-        String sortField = filterDTO.getSortField() != null ?
+
+        String sortField = (filterDTO.getSortField() != null) ?
                 filterDTO.getSortField() : "date";
-        //String sortOrder = filterDTO.getSortOrder();
         Sort.Direction direction =
-                "desc".equalsIgnoreCase(filterDTO.getSortOrder()) ?
-                        Sort.Direction.DESC : Sort.Direction.ASC;
+                "desc".equalsIgnoreCase(filterDTO.getSortOrder())
+                        ? Sort.Direction.DESC
+                        : Sort.Direction.ASC;
         Sort sort = Sort.by(direction, sortField);
-        if ("income".equals(filterDTO.getType())) {
+
+        String type = filterDTO.getType();
+        if ("income".equalsIgnoreCase(type)) {
             List<IncomeDTO> incomes =
                     incomeService.filterIncomes(startDate, endDate,
                             keyword, sort);
             return ResponseEntity.ok(incomes);
-        } else if ("expenses".equalsIgnoreCase(filterDTO.getType())) {
+        } else if ("expense".equalsIgnoreCase(type) || "expenses".equalsIgnoreCase(type)) {
             List<ExpenseDTO> expenses =
                     expenseService.filterExpenses(startDate,
                             endDate, keyword, sort);
             return ResponseEntity.ok(expenses);
         } else {
-            return ResponseEntity.badRequest().body("Invalid filter" +
-                    " type,must be income or expense");
+            return ResponseEntity.badRequest()
+                    .body("Invalid filter type, must be 'income' or" +
+                            " 'expense(s)'");
         }
-
-
     }
-
 }

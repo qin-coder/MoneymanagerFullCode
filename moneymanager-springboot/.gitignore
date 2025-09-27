@@ -3,6 +3,8 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+src/main/resources/*.prop.xml
+src/main/resources/*.properties
 
 ### STS ###
 .apt_generated
@@ -12,6 +14,16 @@ target/
 .settings
 .springBeans
 .sts4-cache
+
+# ===============================
+# 应用配置 / 本地配置文件
+# ===============================
+application.prob.xml
+application.properties
+application.yml
+*.env
+*.local
+.env.local
 
 ### IntelliJ IDEA ###
 .idea

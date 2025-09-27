@@ -10,7 +10,7 @@ const Input = ({ label, value, onChange, placeholder, type }) => {
       <label className="text-[13px] text-slate-800 block mb-1">{label}</label>
       <div className="relative">
         <input
-          className="w-full bg-transparent border border-gray-300 rounded-md px-3 py-2 outline-none pr-10 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+          className="w-full bg-transparent border border-gray-300 rounded-md px-2 py-3 outline-none pr-5 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
           type={
             type === 'password' ? (showPassword ? 'text' : 'password') : type
           }

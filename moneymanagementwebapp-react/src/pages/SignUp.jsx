@@ -1,14 +1,61 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets.js'
-import Input from '../components/Input.jsx'
+import Input from '../components/input.jsx'
+import { validateEmail } from '../util/validation.js'
+import axiosConfig from '../util/axiosConfig.jsx'
+import { API_ENDPOINTS } from '../util/ApiEndpoints.js'
+import { toast } from 'react-hot-toast'
+import { LoaderCircle } from 'lucide-react'
+
 const SignUp = () => {
   const [fullName, setfullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
+
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    if (!fullName.trim()) {
+      setError('Please input your full name')
+      setIsLoading(false)
+      return
+    }
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address')
+      setIsLoading(false)
+      return
+    }
+
+    if (!password.trim()) {
+      setError('Please input your password')
+      setIsLoading(false)
+      return
+    }
+    setError('')
+    //sign up api call
+    try {
+      const response = await axiosConfig.post(API_ENDPOINTS.REGISTER, {
+        fullName,
+        email,
+        password,
+      })
+      if (response.status === 201) {
+        toast.success('Registration successful! Please log in.')
+        navigate('/login')
+      }
+    } catch (error) {
+      setError(error.response.data.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="h-screen w-full relative flex items-center justify-center overflow-hidden">
@@ -26,8 +73,8 @@ const SignUp = () => {
           <p className="text-sm text-slate-700 text-center mb-8">
             Start tracking your expenses today!
           </p>
-          <form className="space-y-4">
-            <div className="flex justify-center mb-6"></div>
+          <form onSubmit={handleSignUp} className="space-y-4">
+            <div className="flex justify-center mb-6">{/*img here*/}</div>
             <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
               <Input
                 label="Full Name"
@@ -59,9 +106,17 @@ const SignUp = () => {
             )}
             <button
               type="submit"
-              className="rounded-lg bg-purple-500 text-white w-full text-lg font-medium py-3 "
+              className={`rounded-lg bg-purple-500 text-white w-full text-lg font-medium py-3 flex items-center justify-center gap-2 ${isLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
+              disabled={isLoading}
             >
-              Sign Up
+              {isLoading ? (
+                <>
+                  <LoaderCircle className="animate-spin w-5 h-5" />
+                  Signing Up...
+                </>
+              ) : (
+                'Sign Up'
+              )}
             </button>
             <p className="text-sm text-center text-slate-800">
               Already have an account?{' '}

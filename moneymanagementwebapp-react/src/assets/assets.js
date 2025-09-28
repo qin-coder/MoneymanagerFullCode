@@ -14,7 +14,7 @@ export const SIDE_BAR_DATA = [
     icon: LayoutDashboard,
     link: '/',
   },
-  { id: '02', lable: 'Categories', icon: List, link: '/category' },
+  { id: '02', lable: 'Category', icon: List, link: '/category' },
   {
     id: '03',
     lable: 'Income',
@@ -29,7 +29,7 @@ export const SIDE_BAR_DATA = [
   },
   {
     id: '05',
-    lable: 'Filters',
+    lable: 'Filter',
     icon: FunnelPlus,
     link: '/filter',
   },

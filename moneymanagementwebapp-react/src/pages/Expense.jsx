@@ -1,5 +1,8 @@
+import Dashboard from "../components/dashboard"
+import useUser from "../hooks/useUser"
 const Expense = () => {
-  return <div>Expense</div>
+  useUser()
+  return <Dashboard activeMenu="Expense">This is expense</Dashboard>
 }
 
 export default Expense

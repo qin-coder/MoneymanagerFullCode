@@ -38,6 +38,11 @@ public class ProfileController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "wrong password or account"));
         }
     }
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileDTO> getProfile() {
+        ProfileDTO profile = profileService.getPublicProfile(null);
+        return ResponseEntity.ok(profile);
+    }
 }
 
 

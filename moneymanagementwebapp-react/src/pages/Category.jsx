@@ -1,5 +1,8 @@
+import Dashboard from "../components/dashboard"
+import useUser from "../hooks/useUser"
 const Category = () => {
-  return <div>Sign Up Category</div>
+  useUser()
+  return <Dashboard activeMenu="Category">This is Category</Dashboard>
 }
 
 export default Category

@@ -1,5 +1,8 @@
+import Dashboard from "../components/dashboard"
+import useUser from "../hooks/useUser"
 const Income = () => {
-  return <div>Income</div>
+  useUser()
+  return <Dashboard activeMenu="Income">This is income</Dashboard>
 }
 
 export default Income

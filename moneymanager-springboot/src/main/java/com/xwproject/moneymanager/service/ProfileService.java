@@ -80,7 +80,7 @@ public class ProfileService {
     public ProfileDTO getPublicProfile(String email) {
         ProfileEntity currentUser = null;
         if (email == null) {
-            getCurrentProfile();
+            currentUser = getCurrentProfile();
         } else {
             currentUser = profileRepository.findByEmail(email)
                     .orElseThrow(() -> new UsernameNotFoundException(

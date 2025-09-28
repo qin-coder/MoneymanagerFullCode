@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { LogOut, Menu, Sidebar, User, X } from 'lucide-react'
 import { assets } from '../assets/assets.js'
 
-
-const Menubar = () => {
+const Menubar = ({ activeMenu }) => {
   const [openSideMenu, setOpenSideMenu] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
   const dropDownRef = useRef(null)
@@ -25,6 +24,19 @@ const Menubar = () => {
     setShowDropdown(false)
     navigate('/login')
   }
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
+        setShowDropdown(false)
+      }
+    }
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showDropdown])
 
   return (
     <div className="flex gap-5 items-center justify-between bg-white px-4 py-4 border border-b border-gray-200/50 backdrop-blur-[2px] sm:px-7 stocky top-0 z-30">
@@ -39,7 +51,7 @@ const Menubar = () => {
         </button>
         <div className="flex items-center gap-2">
           <img src={assets.logo} alt="logo" className="h-10 w-10" />
-          <span className="text-lg font-medium text-gray-700 truncate">
+          <span className="text-xl font-medium text-gray-700 truncate">
             Money Manager
           </span>
         </div>
@@ -85,7 +97,7 @@ const Menubar = () => {
       {/* mobile side view */}
       {openSideMenu && (
         <div className="fixed left-0 right-0 bg-white border-b border-gray-200 lg:hidden z-20 top-[73px] ">
-          <Sidebar />
+          <Sidebar activeMenu={activeMenu} />
         </div>
       )}
     </div>

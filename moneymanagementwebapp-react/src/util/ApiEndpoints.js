@@ -4,6 +4,9 @@ const API_ENDPOINTS = {
   LOGIN: '/login',
   REGISTER: '/register',
   GET_USER_INFO: '/profile',
+  GET_ALL_CATEGORIES: '/category',
+  ADD_CATEGOTY: '/category',
+  UPDATE_CATEGORY: (categoryId) => `/category/${categoryId}`,
   UPLOAD_IMAGE: `https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`,
 }
 

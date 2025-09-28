@@ -19,7 +19,7 @@ const excludedEndpoints = [
 axiosConfig.interceptors.request.use(
   (config) => {
     const shouldSkipToken = excludedEndpoints.some((endpoint) => {
-      config.url?.includes(endpoint)
+      return config.url?.includes(endpoint)
     })
     if (!shouldSkipToken) {
       const accessToken = localStorage.getItem('token')

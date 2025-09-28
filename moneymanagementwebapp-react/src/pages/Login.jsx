@@ -40,7 +40,7 @@ const LoginPage = () => {
         const { token, user } = response.data
         localStorage.setItem('authToken', token)
         localStorage.setItem('user', JSON.stringify(user))
-        console.log('Logged in user:', user)
+        console.log('Logged in user:', user, response.data.password)
         navigate('/dashboard')
       } else {
         setError('Invalid email or password')
@@ -110,7 +110,7 @@ const LoginPage = () => {
               Don’t have an account?{' '}
               <span
                 className="text-blue-600 cursor-pointer hover:underline"
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate('/signup')}
               >
                 Sign Up
               </span>

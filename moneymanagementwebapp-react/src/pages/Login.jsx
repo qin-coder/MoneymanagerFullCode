@@ -6,12 +6,14 @@ import axiosConfig from '../util/axiosConfig.jsx'
 import { API_ENDPOINTS } from '../util/ApiEndpoints.js'
 import { validateEmail } from '../util/validation.js'
 import { LoaderCircle } from 'lucide-react'
+import { useContext } from 'react'
+import { AppContext } from '../context/AppContext.jsx' 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-
+  const { setUser } = useContext(AppContext) 
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
@@ -42,6 +44,7 @@ const LoginPage = () => {
         localStorage.setItem('user', JSON.stringify(user))
         console.log('Logged in user:', user, response.data.password)
         navigate('/dashboard')
+        setUser(user)
       } else {
         setError('Invalid email or password')
       }

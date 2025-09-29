@@ -6,7 +6,7 @@ import { API_ENDPOINTS } from '../util/ApiEndpoints'
 import axiosConfig from '../util/axiosConfig'
 import IncomeList from '../components/IncomeList'
 import Modal from '../components/Modal'
-import { Plus } from 'lucide-react'
+
 import AddIncomeForm from '../components/AddIncomeForm'
 import DeleteAlert from '../components/DeleteAlert'
 import IncomeOverview from '../components/IncomeOverview'
@@ -57,15 +57,15 @@ const Income = () => {
   const handleAddIncome = async (incomeData) => {
     const { name, amount, date, icon, categoryId } = incomeData
     if (!name.trim()) {
-      toast.error('Please fill all name')
+      toast.error('Please fill name')
       return
     }
     if (!amount || isNaN(amount) || amount <= 0) {
-      toast.error('Please fill all amount')
+      toast.error('Please fill amount')
       return
     }
     if (!date) {
-      toast.error('Please fill all date')
+      toast.error('Please fill date')
       return
     }
     const today = new Date().toISOString().split('T')[0]
@@ -74,7 +74,7 @@ const Income = () => {
       return
     }
     if (!categoryId) {
-      toast.error('Please fill all category')
+      toast.error('Please choose category')
       return
     }
     try {
@@ -121,14 +121,11 @@ const Income = () => {
         <div className="grid grid-cols-1 gap-6">
           <div>
             {/*overview for income with line char */}
-            <button
-              className="add-btn"
-              onClick={() => setOpenAddIncomeModal(true)}
-            >
-              <Plus size={20} className="text-large" />
-              Add Income
-            </button>
-            <IncomeOverview transactions={incomeData} />
+
+            <IncomeOverview
+              transactions={incomeData}
+              onAddIncome={() => setOpenAddIncomeModal(true)}
+            />
           </div>
           <IncomeList
             transactions={incomeData}

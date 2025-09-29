@@ -16,7 +16,6 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {
     { name: 'Total Expense', value: totalExpense },
   ]
 
-  // 可选：格式化总余额为千分位字符串，比如 10000 → "10,000"
   const totalBalanceFormatted = totalBalance.toLocaleString()
 
   return (
@@ -27,7 +26,6 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {
         </div>
 
         <div className="h-[600px] w-full relative">
-
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -36,8 +34,8 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {
                 nameKey="name"
                 cx="50%"
                 cy="50%"
-                outerRadius={180} 
-                innerRadius={140} 
+                outerRadius={180}
+                innerRadius={140}
                 fill="#8884d8"
                 label={({ name, value }) =>
                   `${name}: $${value.toLocaleString()}`
@@ -54,7 +52,6 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {
               <Legend />
             </PieChart>
           </ResponsiveContainer>
-          {/* ✅ 在图表正中心显示：Total Balance: 10,000 */}
           <div
             style={{
               position: 'absolute',
@@ -62,7 +59,7 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               textAlign: 'center',
-              pointerEvents: 'none', // 防止遮挡交互
+              pointerEvents: 'none',
             }}
           >
             <div className="text-lg font-semibold text-gray-800">

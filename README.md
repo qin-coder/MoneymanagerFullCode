@@ -69,27 +69,27 @@ This project demonstrates a **modular architecture**, **secure authentication wi
 
 ### 1. Dashboard
 <div align="center">
-  <img src="pics/dashboard.png" width="100%" />
+  <img src="pic/dashboard.png" width="100%" />
 </div>
 
 ### 2. Category
 <div align="center">
-  <img src="pics/category.png" width="100%" />
+  <img src="pic/category.png" width="100%" />
 </div>
 
 ### 3. Income
 <div align="center">
-  <img src="pics/income.png" width="100%" />
+  <img src="pic/income.png" width="100%" />
 </div>
 
 ### 4. Expense
 <div align="center">
-  <img src="pics/expense.png" width="100%" />
+  <img src="pic/expense.png" width="100%" />
 </div>
 
 ### 5. Filter
 <div align="center">
-  <img src="pics/filter.png" width="100%" />
+  <img src="pic/filter.png" width="100%" />
 </div>
 
 ## 🛠 Installation & Setup

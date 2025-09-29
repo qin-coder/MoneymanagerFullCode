@@ -44,10 +44,10 @@ const ExpenseOverview = ({ transactions, onAddExpense }) => {
       day % 10 === 1 && day !== 11
         ? 'st'
         : day % 10 === 2 && day !== 12
-        ? 'nd'
-        : day % 10 === 3 && day !== 13
-        ? 'rd'
-        : 'th'
+          ? 'nd'
+          : day % 10 === 3 && day !== 13
+            ? 'rd'
+            : 'th'
     return `${day}${suffix} ${month}`
   }
 
@@ -76,7 +76,10 @@ const ExpenseOverview = ({ transactions, onAddExpense }) => {
             time.
           </p>
         </div>
-        <button className="add-btn" onClick={onAddExpense}>
+        <button
+          className="flex items-center gap-2 px-4 py-2 bg-green-200 text-green-800 font-bold rounded-md hover:bg-green-300 transition-colors"
+          onClick={onAddExpense}
+        >
           <Plus size={20} className="text-large" />
           Add Expense
         </button>

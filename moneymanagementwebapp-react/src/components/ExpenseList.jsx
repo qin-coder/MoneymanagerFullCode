@@ -1,19 +1,15 @@
 import React from 'react'
-import { Download, Mail } from 'lucide-react'
+import { Download } from 'lucide-react'
 import TransationInfoCard from './TransationInfoCard'
 import moment from 'moment'
 
-const ExpenseList = ({ transactions, onDelete }) => {
+const ExpenseList = ({ transactions, onDelete, onDownload }) => {
   return (
     <div className="card">
       <div className="flex items-center justify-between">
         <h4 className="text-lg font-semibold">Expenses</h4>
         <div className="flex items-center justify-end gap-2">
-          <button className="card-btn">
-            <Mail size={20} className="text-base" />
-            Email
-          </button>
-          <button className="card-btn">
+          <button className="card-btn" onClick={onDownload}>
             <Download size={20} className="text-base" />
             Download
           </button>

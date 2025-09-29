@@ -79,7 +79,7 @@ const IncomeOverview = ({ transactions, onAddIncome }) => {
             time.
           </p>
         </div>
-        <button className="add-btn" onClick={onAddIncome}>
+        <button className="flex items-center gap-2 px-4 py-2 bg-green-200 text-green-800 font-bold rounded-md hover:bg-green-300 transition-colors" onClick={onAddIncome}>
           <Plus size={20} className="text-large" />
           Add Income
         </button>

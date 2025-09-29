@@ -109,6 +109,28 @@ const Expense = () => {
     }
   }
 
+  //download execl
+  const handleDownloadExpensesDetails = async () => {
+    try {
+      const response = await axiosConfig.get(
+        API_ENDPOINTS.EXPENSE_EXCEL_DOWNLOAD,
+        { responseType: 'blob' }
+      )
+      let filename = 'Expense.xlsx'
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', filename)
+      document.body.appendChild(link)
+      link.click()
+      link.parentNode.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.log('Error while downloading expense details', error)
+      toast.error(error.message)
+    }
+  }
+
   useEffect(() => {
     fetchExpenseDetails()
     fetchExpenseCategories()
@@ -127,6 +149,7 @@ const Expense = () => {
           <ExpenseList
             transactions={expenseData}
             onDelete={(id) => setOpenDeleteAlert({ show: true, data: id })}
+            onDownload={handleDownloadExpensesDetails}
           />
           {/* add expense modal */}
           <Modal

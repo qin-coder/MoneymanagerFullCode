@@ -37,8 +37,7 @@ This project demonstrates a **modular architecture**, **secure authentication wi
 2. **Application Layer (Backend)**  
    - Spring Boot for application logic and API endpoints  
    - Spring Security with JWT for authentication & authorization  
-   - Scheduled tasks for daily email reminders  
-   - Email service for notifications & transaction exports  
+   - Scheduled tasks for daily reminders  
 
 3. **Data Layer**  
    - MySQL as the primary relational database  
@@ -60,7 +59,7 @@ This project demonstrates a **modular architecture**, **secure authentication wi
 - ✅ **Dashboard & Analytics:** Interactive charts and statistics with React Charts  
 - ✅ **Filtering & Search:** Advanced filtering for transactions and categories  
 - ✅ **Profile Management:** Upload profile pictures to Cloudinary  
-- ✅ **Export & Sharing:** Download transactions as Excel and receive via Email  
+- ✅ **Export & Sharing:** Download transactions as Excel 
 - ✅ **Notifications:** Real-time notifications
 
 ---

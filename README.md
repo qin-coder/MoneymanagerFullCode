@@ -37,8 +37,7 @@ This project demonstrates a **modular architecture**, **secure authentication wi
 2. **Application Layer (Backend)**  
    - Spring Boot for application logic and API endpoints  
    - Spring Security with JWT for authentication & authorization  
-   - Scheduled tasks for daily email reminders  
-   - Email service for notifications & transaction exports  
+   - Scheduled tasks for daily reminders  
 
 3. **Data Layer**  
    - MySQL as the primary relational database  

@@ -60,7 +60,7 @@ This project demonstrates a **modular architecture**, **secure authentication wi
 - ✅ **Dashboard & Analytics:** Interactive charts and statistics with React Charts  
 - ✅ **Filtering & Search:** Advanced filtering for transactions and categories  
 - ✅ **Profile Management:** Upload profile pictures to Cloudinary  
-- ✅ **Export & Sharing:** Download transactions as Excel and receive via Email  
+- ✅ **Export & Sharing:** Download transactions as Excel 
 - ✅ **Notifications:** Real-time notifications
 
 ---

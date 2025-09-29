@@ -25,6 +25,11 @@ const API_ENDPOINTS = {
   INCOME_EXCEL_DOWNLOAD: '/download/incomes',
   EXPENSE_EXCEL_DOWNLOAD: '/download/expenses',
 
+  //filter
+  APPLY_FILTERS: '/filter',
+  //dashboard
+  DASHBOARD_DATA: '/dashboard',
+
   UPLOAD_IMAGE: `https://api.cloudinary.com/v1_1/${CLOUDINARY_NAME}/image/upload`,
 }
 

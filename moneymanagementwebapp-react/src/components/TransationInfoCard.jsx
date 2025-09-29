@@ -43,7 +43,7 @@ const TransationInfoCard = ({
             {type === 'income' ? (
               <TrendingUp size={20} className="text-green-500" />
             ) : (
-              <TrendingDown size={20} className="text-green-500" />
+              <TrendingDown size={20} className="text-red-500" />
             )}
           </div>
         </div>
